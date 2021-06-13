@@ -67,11 +67,11 @@ function generateType () {
 }
 
 function generateFeatures () {
-  const quantityFeatures = getRandomNumber(1 , FEATURES_VARIANT.length);
-  for (let index = 0; index < quantityFeatures; index++) {
-    const newFeature = FEATURES_VARIANT[getRandomNumber(0 , FEATURES_VARIANT.length - 1)];
-    if (!features.includes(newFeature)) {
-      features[index] = newFeature;
+  const QUANTITY_FEATURES = getRandomNumber(1 , FEATURES_VARIANT.length);
+  for (let index = 0; index < QUANTITY_FEATURES; index++) {
+    const NEW_FEATURE = FEATURES_VARIANT[getRandomNumber(0 , FEATURES_VARIANT.length - 1)];
+    if (!features.includes(NEW_FEATURE)) {
+      features[index] = NEW_FEATURE;
     }
   }
   features = features.filter((word) => word.length > 0);
@@ -79,19 +79,22 @@ function generateFeatures () {
 }
 
 function generatePhotos () {
-  const quantityPHOTOS = getRandomNumber(1 , PHOTOS_VARIANT.length);
-  for (let index = 0; index < quantityPHOTOS; index++) {
+  const QUANTITY_PHOTOS = getRandomNumber(1 , PHOTOS_VARIANT.length);
+  for (let index = 0; index < QUANTITY_PHOTOS; index++) {
     PHOTOS[index] = PHOTOS_VARIANT[getRandomNumber(0 , PHOTOS_VARIANT.length - 1)];
   }
   return PHOTOS;
 }
 
 function generateAvatar () {
-  const avatarIndex = getRandomNumber(1 , 10);
-  if (avatarIndex === 10) {
-    return 'img/avatars/user' + avatarIndex + '.png';
+  let avatarAdress = 'img/avatars/user';
+  const AVATAR_FORMAT = '.png';
+  const AVATAR_INDEX = getRandomNumber(1 , 10);
+  if (AVATAR_INDEX === 10) {
+    return  avatarAdress + AVATAR_INDEX + AVATAR_FORMAT ;
   }
-  return 'img/avatars/user0' + avatarIndex + '.png';
+  avatarAdress = 'img/avatars/user0';
+  return avatarAdress + AVATAR_INDEX + AVATAR_FORMAT;
 }
 
 function generateOffers () {
