@@ -1,7 +1,6 @@
 const ERROR_MESSAGE = 'Значения должны быть больше 0';
 const TYPE_VARIANT = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const CHECKIN_TIME = ['12:00', '13:00', '14:00'];
-const CHEKOUT_TIME = ['12:00', '13:00', '14:00'];
+const CHECKIN_CHECKOUT_TIME = ['12:00', '13:00', '14:00'];
 const FEATURES_VARIANT = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS_VARIANT = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 const TYPE_TITLE = {
@@ -20,10 +19,7 @@ const COORDINATE_ROUNDING = 5;
 const MAX_ROOMS = 5;
 const MAX_GUESTS = 5;
 const MAX_PRICE =  1000000;
-let features = [];
-const PHOTOS = [];
-let generatedType = '';
-const OFFERS = [];
+const OFFERS_QUANTITY = 10;
 
 //Функция, возвращающая случайное целое число из переданного диапазона включительно. Диапазон может быть только положительный, включая ноль
 // Источник: https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
@@ -62,61 +58,71 @@ function genarateMapCoordinate (min, max, rounding) {
   return Math.trunc(coordinate * ROUND) / ROUND;
 }
 
+let generatedType = '';
+
 function generateType () {
-  return TYPE_VARIANT[getRandomNumber(0 , TYPE_VARIANT.length - 1)];
+  return TYPE_VARIANT[getRandomNumber (0, TYPE_VARIANT.length - 1)];
 }
+let features = [];
 
 function generateFeatures () {
-  const QUANTITY_FEATURES = getRandomNumber(1 , FEATURES_VARIANT.length);
-  for (let index = 0; index < QUANTITY_FEATURES; index++) {
-    const NEW_FEATURE = FEATURES_VARIANT[getRandomNumber(0 , FEATURES_VARIANT.length - 1)];
-    if (!features.includes(NEW_FEATURE)) {
-      features[index] = NEW_FEATURE;
+  const quantityFeatures = getRandomNumber (1, FEATURES_VARIANT.length);
+  for (let index = 0; index < quantityFeatures; index++) {
+    const newFeature = FEATURES_VARIANT[getRandomNumber (0, FEATURES_VARIANT.length - 1)];
+    if (!features.includes(newFeature)) {
+      features[index] = newFeature;
     }
   }
   features = features.filter((word) => word.length > 0);
   return features;
 }
 
+const photos = [];
+
 function generatePhotos () {
-  const QUANTITY_PHOTOS = getRandomNumber(1 , PHOTOS_VARIANT.length);
-  for (let index = 0; index < QUANTITY_PHOTOS; index++) {
-    PHOTOS[index] = PHOTOS_VARIANT[getRandomNumber(0 , PHOTOS_VARIANT.length - 1)];
+  const quantityPhotos = getRandomNumber (1, PHOTOS_VARIANT.length);
+  for (let index = 0; index < quantityPhotos; index++) {
+    photos[index] = PHOTOS_VARIANT[getRandomNumber (0, PHOTOS_VARIANT.length - 1)];
   }
-  return PHOTOS;
+  return photos;
 }
 
 function generateAvatar () {
-  const AVATAR_INDEX = getRandomNumber(1 , 10);
-  if (AVATAR_INDEX === 10) {
-    return  `img/avatars/user${AVATAR_INDEX}.png` ;
+  const avatarIndex = getRandomNumber (1, 10);
+  if (avatarIndex === 10) {
+    return  `img/avatars/user${avatarIndex}.png` ;
   }
-  return `img/avatars/user0${AVATAR_INDEX}.png`;
+  return `img/avatars/user0${avatarIndex}.png`;
 }
 
+const offers = [];
+
 function generateOffers () {
-  for (let index = 0; index < 10; index++) {
+  for (let index = 0; index < OFFERS_QUANTITY; index++) {
     generatedType = generateType ();
-    OFFERS[index] = {
+    const latCoordinate = genarateMapCoordinate (35.65000, 35.70000, COORDINATE_ROUNDING);
+    const lngCoordinate = genarateMapCoordinate (139.70000, 139.80000, COORDINATE_ROUNDING);
+    offers[index] = {
       author: {
         avatar: generateAvatar (),
       },
       type: generatedType,
       title: TYPE_TITLE[generatedType],
-      price: getRandomNumber(0 , MAX_PRICE),
-      rooms: getRandomNumber(0 , MAX_ROOMS),
-      guests: getRandomNumber(0 , MAX_GUESTS),
-      features: generateFeatures () ,
+      address: `${latCoordinate}, ${lngCoordinate}`,
+      price: getRandomNumber (0, MAX_PRICE),
+      rooms: getRandomNumber (0, MAX_ROOMS),
+      guests: getRandomNumber (0, MAX_GUESTS),
+      features: generateFeatures (),
       photos: generatePhotos (),
-      checkin: CHECKIN_TIME[getRandomNumber(0 , CHECKIN_TIME.length - 1)],
-      checkout: CHEKOUT_TIME[getRandomNumber(0 , CHEKOUT_TIME.length - 1)],
+      checkin: CHECKIN_CHECKOUT_TIME[getRandomNumber (0, CHECKIN_CHECKOUT_TIME.length - 1)],
+      checkout: CHECKIN_CHECKOUT_TIME[getRandomNumber (0, CHECKIN_CHECKOUT_TIME.length - 1)],
       description: TYPE_DESCRIPTION[generatedType],
       location: {
-        lat: genarateMapCoordinate (35.65000, 35.70000, COORDINATE_ROUNDING),
-        lng: genarateMapCoordinate (139.70000, 139.80000, COORDINATE_ROUNDING),
+        lat: latCoordinate,
+        lng: lngCoordinate,
       },
     };
   }
-  return OFFERS;
+  return offers;
 }
 generateOffers ();
