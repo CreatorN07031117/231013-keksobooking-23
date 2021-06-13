@@ -87,14 +87,11 @@ function generatePhotos () {
 }
 
 function generateAvatar () {
-  let avatarAdress = 'img/avatars/user';
-  const AVATAR_FORMAT = '.png';
   const AVATAR_INDEX = getRandomNumber(1 , 10);
   if (AVATAR_INDEX === 10) {
-    return  avatarAdress + AVATAR_INDEX + AVATAR_FORMAT ;
+    return  `img/avatars/user${AVATAR_INDEX}.png` ;
   }
-  avatarAdress = 'img/avatars/user0';
-  return avatarAdress + AVATAR_INDEX + AVATAR_FORMAT;
+  return `img/avatars/user0${AVATAR_INDEX}.png`;
 }
 
 function generateOffers () {
