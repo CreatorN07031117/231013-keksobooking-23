@@ -5,11 +5,11 @@ const CHECKIN_CHECKOUT_TIME = ['12:00', '13:00', '14:00'];
 const FEATURES_VARIANT = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS_VARIANT = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 const TYPE_TITLE = {
-  'palace': 'Дворец',
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'bungalow': 'Бунгало',
-  'hotel':'Номер в отеле'};
+  'palace': 'Шикарный дворец',
+  'flat': 'Уютная квартира',
+  'house': 'Просторный дом',
+  'bungalow': 'Комфортабельное бунгало',
+  'hotel':'Номер в шикарном отеле'};
 const TYPE_DESCRIPTION = {
   'palace': 'Мы всегда рады гостям в нашем двореце. У нас есть все удобства для комфортного отдыха.',
   'flat': 'Квартира с прекрасным видом из окна. Хорошее расположение и транспортная развязка.',

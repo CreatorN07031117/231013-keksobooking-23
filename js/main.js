@@ -1,5 +1,8 @@
 import {generateOffers} from './data.js';
+import {renderingOfferCards} from './card.js';
 
 const OFFERS_QUANTITY = 10;
-
-generateOffers(OFFERS_QUANTITY);
+const offerCards = generateOffers(OFFERS_QUANTITY);
+const renderedСards = renderingOfferCards(offerCards);
+const mapCanvasBlock = document.querySelector('#map-canvas');
+mapCanvasBlock.appendChild(renderedСards.children[0]);
