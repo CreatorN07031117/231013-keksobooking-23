@@ -10,6 +10,7 @@ function renderingOfferCards (cards) {
   const offerCardsFragment = document.createDocumentFragment();
   cards.forEach((offer) => {
     const offerCard = offerCardTemplate.cloneNode(true);
+
     offerCard.querySelector('.popup__title').textContent = offer.title;
     if (offer.title === ''|| offer.title === undefined ) {
       offerCard.querySelector('.popup__title').classList.add('hidden');
@@ -35,8 +36,8 @@ function renderingOfferCards (cards) {
       offerCard.querySelector('.popup__text--capacity').classList.add('hidden');
     } else if (offer.rooms === ''|| offer.rooms === undefined) {
       offerCard.querySelector('.popup__text--capacity').textContent = `Для ${offer.guests} гостей`;
-    } else if (offer.guests === ''|| offer.guests === undefined) {offerCard.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для гостей`;}
-
+    } else if (offer.guests === ''|| offer.guests === undefined) {offerCard.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для гостей`;
+    }
 
     offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
     if ((offer.checkin === ''|| offer.checkin === undefined) && (offer.checkout === ''|| offer.checkout === undefined)) {
