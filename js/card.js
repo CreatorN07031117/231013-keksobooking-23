@@ -40,32 +40,32 @@ function renderingOfferCards (cards) {
     addText (offer.address, offerAdress);
     addHiddenClass (offer.address, offerAdress);
 
-    offerPrice.textContent = `${offer.price} ₽/ночь`;
+    addText (`${offer.price} ₽/ночь`, offerPrice);
     addHiddenClass (offer.price, offerPrice);
 
-    offerType.textContent = TYPE_VARIANT[offer.type];
+    addText (TYPE_VARIANT[offer.type], offerType);
     addHiddenClass (offer.type, offerType);
 
-    offerCapacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+    addText (`${offer.rooms} комнаты для ${offer.guests} гостей`, offerCapacity);
     if (!offer.rooms && !offer.guests) {
-      offerCapacity.classList.add('hidden');
+      addHiddenClass (false, offerCapacity);
     } else if (!offer.rooms) {
-      offerCapacity.textContent = `Для ${offer.guests} гостей`;
+      addText (`Для ${offer.guests} гостей`, offerCapacity);
     } else if (!offer.guests) {
-      offerCapacity.textContent = `${offer.rooms} комнаты для гостей`;
+      addText (`${offer.rooms} комнаты для гостей`, offerCapacity);
     }
 
-    offerTime.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+    addText (`Заезд после ${offer.checkin}, выезд до ${offer.checkout}`, offerTime);
     if (!offer.checkin && !offer.checkout) {
-      offerTime.classList.add('hidden');
+      addHiddenClass (false, offerTime);
     } else if (!offer.checkin) {
-      offerTime.textContent = `Выезд до ${offer.checkout}`;
+      addText (`Выезд до ${offer.checkout}`, offerTime);
     } else if (!offer.checkout) {
-      offerTime.textContent = `Заезд после ${offer.checkin}`;
+      addText (`Заезд после ${offer.checkin}`, offerTime);
     }
 
     if (!offer.features) {
-      offerFeatures .classList.add('hidden');
+      addHiddenClass (false, offerFeatures);
     } else {
       const classModifiers = offer.features.map((feature) => `popup__feature--${feature}`);
       offerFeatureItem.forEach((featureItem) => {
@@ -80,21 +80,15 @@ function renderingOfferCards (cards) {
     addHiddenClass (offer.description, offerDescription);
 
     offerPhotos.removeChild(offerPhotoItem);
-    if (!offer.photos) {
-      offerPhotos.classList.add('hidden');
-    } else {
-      offer.photos.forEach((photoUrl) => {
-        const photo = offerPhotoItemTemplate.cloneNode(true);
-        photo.src = photoUrl;
-        offerPhotos.appendChild(photo);
-      });
-    }
+    offer.photos.forEach((photoUrl) => {
+      const photo = offerPhotoItemTemplate.cloneNode(true);
+      photo.src = photoUrl;
+      offerPhotos.appendChild(photo);
+    });
+    addHiddenClass (offer.photos, offerPhotos);
 
-    if (!offer.author) {
-      offerAvatar.classList.add('hidden');
-    } else {
-      offerAvatar.src = offer.author.avatar;
-    }
+    offerAvatar.src = offer.author.avatar;
+    addHiddenClass (offer.author, offerAvatar);
 
     offerCardsFragment.appendChild(offerCard);
   });
