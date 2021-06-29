@@ -12,38 +12,34 @@ function removeClassToElement (element, className) {
   element.classList.remove(className);
 }
 
-function addAttributeDisabled (element) {
-  element.setAttribute('disabled', 'disabled');
+function toggleAttributeDisabled (element, value) {
+  element.disabled = value;
 }
 
-function removeAttributeDisabled (element) {
-  element.removeAttribute('disabled');
-}
-
-function disablingPage () {
+function disablePage () {
   addClassToElement (adForm, 'ad-form--disabled');
   fieldsetAdForm.forEach((field) => {
-    addAttributeDisabled (field);
+    toggleAttributeDisabled (field, true);
   });
 
   addClassToElement (mapFilters, 'map__filters--disabled');
   mapFilter.forEach((field) => {
-    addAttributeDisabled (field);
+    toggleAttributeDisabled (field, true);
   });
-  addAttributeDisabled (mapFilterFieldset);
+  toggleAttributeDisabled (mapFilterFieldset, true);
 }
 
-function anablingPage () {
+function enablePage () {
   removeClassToElement (adForm, 'ad-form--disabled');
   fieldsetAdForm.forEach((field) => {
-    removeAttributeDisabled (field);
+    toggleAttributeDisabled (field, false);
   });
 
   removeClassToElement (mapFilters, 'map__filters--disabled');
   mapFilter.forEach((field) => {
-    removeAttributeDisabled (field);
+    toggleAttributeDisabled (field, false);
   });
-  removeAttributeDisabled (mapFilterFieldset);
+  toggleAttributeDisabled (mapFilterFieldset, false);
 }
 
-export {disablingPage, anablingPage};
+export {disablePage, enablePage};
