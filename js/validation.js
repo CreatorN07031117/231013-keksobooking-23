@@ -7,26 +7,27 @@ const MIN_PRICE = {
   'hotel': 3000,
   'house': 5000,
   'palace': 10000};
+const ROOMS_NOT_FOR_GUESTS = '100';
+const CAPACITY_NOT_FOR_GUESTS = '0';
 const adForm = document.querySelector('.ad-form');
 const adTitleInput = adForm.querySelector('#title');
 const adPriceInput = adForm.querySelector('#price');
 const adTypeList = adForm.querySelector('#type');
-let adTypeValue = adTypeList.options[adTypeList.selectedIndex].value;
 const adRoomsNumberList = adForm.querySelector('#room_number');
-let adRoomsValue = adRoomsNumberList.options[adRoomsNumberList.selectedIndex].value;
 const adCapacityList = adForm.querySelector('#capacity');
-let adCapacityValue = adCapacityList.options[adCapacityList.selectedIndex].value;
 
 function takeCustomMessage (element, message) {
   element.setCustomValidity(message);
 }
 
 function checkingCapacity () {
-  if(adRoomsValue === '100' && adCapacityValue === '0') {
+  const adRoomsValue = adRoomsNumberList.value;
+  const adCapacityValue = adCapacityList.value;
+  if(adRoomsValue === ROOMS_NOT_FOR_GUESTS && adCapacityValue === CAPACITY_NOT_FOR_GUESTS) {
     takeCustomMessage(adCapacityList, '');
-  } else if (adRoomsValue === '100') {
+  } else if (adRoomsValue === ROOMS_NOT_FOR_GUESTS) {
     takeCustomMessage(adCapacityList, 'Не подходит для размещения гостей');
-  } else if (adCapacityValue === '0') {
+  } else if (adCapacityValue === CAPACITY_NOT_FOR_GUESTS) {
     takeCustomMessage(adCapacityList, 'Укажите количество гостей');
   } else if (adRoomsValue < adCapacityValue) {
     takeCustomMessage(adCapacityList, `Не подходит для размещения ${adCapacityValue} гостей. Количество гостей должно быть не больше количества комнат `);
@@ -37,17 +38,11 @@ function checkingCapacity () {
   return adCapacityList.reportValidity();
 }
 
-adTypeList.addEventListener('change', () => {
-  adTypeValue = adTypeList.options[adTypeList.selectedIndex].value;
-});
-
 adCapacityList.addEventListener('change', () => {
-  adCapacityValue = adCapacityList.options[adCapacityList.selectedIndex].value;
   checkingCapacity ();
 });
 
 adRoomsNumberList.addEventListener('change', () => {
-  adRoomsValue = adRoomsNumberList.options[adRoomsNumberList.selectedIndex].value;
   checkingCapacity ();
 });
 
@@ -66,6 +61,7 @@ adTitleInput.addEventListener('input', () => {
 });
 
 adPriceInput.addEventListener('input', () => {
+  const adTypeValue = adTypeList.value;
   const value = adPriceInput.value;
 
   if (value < MIN_PRICE[adTypeValue]) {
