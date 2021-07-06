@@ -3,6 +3,8 @@ const fieldsetAdForm = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 const mapFilter = mapFilters.querySelectorAll('.map__filter');
 const mapFilterFieldset = mapFilters.querySelector('fieldset');
+const adTimeIn = adForm.querySelector('#timein');
+const adTimeOut = adForm.querySelector('#timeout');
 
 function addClassToElement (element, className) {
   element.classList.add(className);
@@ -41,5 +43,18 @@ function enablePage () {
   });
   toggleAttributeDisabled (mapFilterFieldset, false);
 }
+
+function correctTime (selectTime, dependentTime) {
+  const index = selectTime.selectedIndex;
+  dependentTime.options[index].selected = true;
+}
+
+adTimeIn.addEventListener('change', () => {
+  correctTime (adTimeIn, adTimeOut);
+});
+
+adTimeOut.addEventListener('change', () => {
+  correctTime (adTimeOut, adTimeIn);
+});
 
 export {disablePage, enablePage};

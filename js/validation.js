@@ -38,12 +38,22 @@ function checkingCapacity () {
   return adCapacityList.reportValidity();
 }
 
+function changePlaseholder (field, placeholder) {
+  field.setAttribute('placeholder', placeholder);
+}
+
+changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
+
 adCapacityList.addEventListener('change', () => {
   checkingCapacity ();
 });
 
 adRoomsNumberList.addEventListener('change', () => {
   checkingCapacity ();
+});
+
+adTypeList.addEventListener('change', () => {
+  changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
 });
 
 adTitleInput.addEventListener('input', () => {
