@@ -20,7 +20,7 @@ function takeCustomMessage (element, message) {
   element.setCustomValidity(message);
 }
 
-function checkingCapacity () {
+function checkCapacity () {
   const adRoomsValue = adRoomsNumberList.value;
   const adCapacityValue = adCapacityList.value;
   if(adRoomsValue === ROOMS_NOT_FOR_GUESTS && adCapacityValue === CAPACITY_NOT_FOR_GUESTS) {
@@ -38,12 +38,22 @@ function checkingCapacity () {
   return adCapacityList.reportValidity();
 }
 
+function changePlaseholder (field, placeholder) {
+  field.placeholder = placeholder;
+}
+
+changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
+
 adCapacityList.addEventListener('change', () => {
-  checkingCapacity ();
+  checkCapacity ();
 });
 
 adRoomsNumberList.addEventListener('change', () => {
-  checkingCapacity ();
+  checkCapacity ();
+});
+
+adTypeList.addEventListener('change', () => {
+  changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
 });
 
 adTitleInput.addEventListener('input', () => {
@@ -76,7 +86,7 @@ adPriceInput.addEventListener('input', () => {
 });
 
 adForm.addEventListener('submit', (evt) => {
-  if(!checkingCapacity ()) {
+  if(!checkCapacity ()) {
     evt.preventDefault();
   }
 });
