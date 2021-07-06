@@ -45,8 +45,7 @@ function enablePage () {
 }
 
 function correctTime (selectTime, dependentTime) {
-  const index = selectTime.selectedIndex;
-  dependentTime.options[index].selected = true;
+  dependentTime.value = selectTime.value;
 }
 
 adTimeIn.addEventListener('change', () => {
