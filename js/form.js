@@ -29,6 +29,7 @@ function disablePage () {
     toggleAttributeDisabled (field, true);
   });
   toggleAttributeDisabled (mapFilterFieldset, true);
+  console.log('карта недоступна')
 }
 
 function enablePage () {
