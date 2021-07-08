@@ -24,12 +24,11 @@ const MAX_PRICE =  1000000;
 
 let generatedType = '';
 
-function generateType () {
-  return TYPE_VARIANT[getRandomNumber (0, TYPE_VARIANT.length - 1)];
-}
+const generateType = () => TYPE_VARIANT[getRandomNumber (0, TYPE_VARIANT.length - 1)];
+
 let features = [];
 
-function generateFeatures () {
+const generateFeatures = () => {
   const quantityFeatures = getRandomNumber (1, FEATURES_VARIANT.length);
   for (let index = 0; index < quantityFeatures; index++) {
     const newFeature = FEATURES_VARIANT[getRandomNumber (0, FEATURES_VARIANT.length - 1)];
@@ -39,29 +38,29 @@ function generateFeatures () {
   }
   features = features.filter((word) => word.length > 0);
   return features;
-}
+};
 
 const photos = [];
 
-function generatePhotos () {
+const generatePhotos = () => {
   const quantityPhotos = getRandomNumber (1, PHOTOS_VARIANT.length);
   for (let index = 0; index < quantityPhotos; index++) {
     photos[index] = PHOTOS_VARIANT[getRandomNumber (0, PHOTOS_VARIANT.length - 1)];
   }
   return photos;
-}
+};
 
-function generateAvatar () {
+const generateAvatar = () => {
   const avatarIndex = getRandomNumber (1, 10);
   if (avatarIndex === 10) {
     return  `img/avatars/user${avatarIndex}.png` ;
   }
   return `img/avatars/user0${avatarIndex}.png`;
-}
+};
 
 const offers = [];
 
-function generateOffers (numberOffers) {
+const generateOffers = (numberOffers) => {
   for (let index = 0; index < numberOffers; index++) {
     generatedType = generateType ();
     const latCoordinate = genarateMapCoordinate (35.65000, 35.70000, COORDINATE_ROUNDING);
@@ -88,6 +87,6 @@ function generateOffers (numberOffers) {
     };
   }
   return offers;
-}
+};
 
 export {generateOffers};
