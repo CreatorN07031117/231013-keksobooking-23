@@ -6,19 +6,19 @@ const mapFilterFieldset = mapFilters.querySelector('fieldset');
 const adTimeIn = adForm.querySelector('#timein');
 const adTimeOut = adForm.querySelector('#timeout');
 
-function addClassToElement (element, className) {
+const addClassToElement = (element, className) => {
   element.classList.add(className);
-}
+};
 
-function removeClassToElement (element, className) {
+const removeClassToElement = (element, className) => {
   element.classList.remove(className);
-}
+};
 
-function toggleAttributeDisabled (element, value) {
+const toggleAttributeDisabled = (element, value) => {
   element.disabled = value;
-}
+};
 
-function disablePage () {
+const disablePage = () => {
   addClassToElement (adForm, 'ad-form--disabled');
   fieldsetAdForm.forEach((field) => {
     toggleAttributeDisabled (field, true);
@@ -29,9 +29,9 @@ function disablePage () {
     toggleAttributeDisabled (field, true);
   });
   toggleAttributeDisabled (mapFilterFieldset, true);
-}
+};
 
-function enablePage () {
+const enablePage = () => {
   removeClassToElement (adForm, 'ad-form--disabled');
   fieldsetAdForm.forEach((field) => {
     toggleAttributeDisabled (field, false);
@@ -42,11 +42,11 @@ function enablePage () {
     toggleAttributeDisabled (field, false);
   });
   toggleAttributeDisabled (mapFilterFieldset, false);
-}
+};
 
-function correctTime (selectTime, dependentTime) {
+const correctTime = (selectTime, dependentTime) => {
   dependentTime.value = selectTime.value;
-}
+};
 
 adTimeIn.addEventListener('change', () => {
   correctTime (adTimeIn, adTimeOut);

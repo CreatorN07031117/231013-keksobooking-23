@@ -1,19 +1,32 @@
 import {renderingOffer} from './card.js';
-import {enablePage} from './form.js';
+import {enablePage, disablePage} from './form.js';
 
 
 const inputAdress = document.querySelector('#address');
 const adFormReset = document.querySelector('.ad-form__reset');
+const TOKIO = {
+  lat: 35.67740,
+  lng: 139.75422};
+const zoom = 11;
+const mainPinSize = [52, 52];
+const pinIconSize = [40, 40];
 
+disablePage();
+inputAdress.value = `${TOKIO.lat}, ${TOKIO.lng}`;
+
+const calculateIconAnchor = (iconSize) =>{
+  const anchor = iconSize.slice();
+  anchor[0] = anchor[0]/2;
+};
 
 const map = L.map('map-canvas')
   .on('load', () => {
     enablePage();
   })
   .setView({
-    lat: 35.677402,
-    lng: 139.754221,
-  }, 11);
+    lat: TOKIO.lat,
+    lng: TOKIO.lng,
+  }, zoom);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -24,14 +37,14 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: mainPinSize,
+  iconAnchor: calculateIconAnchor(mainPinSize),
 });
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.677402,
-    lng: 139.754221,
+    lat: TOKIO.lat,
+    lng: TOKIO.lng,
   },
   {
     draggable: true,
@@ -43,27 +56,27 @@ mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
   const latLngMarker = evt.target.getLatLng();
-  inputAdress.value = `${latLngMarker.lat}, ${latLngMarker.lng}`;
+  inputAdress.value = `${latLngMarker.lat.toFixed(5)}, ${latLngMarker.lng.toFixed(5)}`;
 });
 
 adFormReset.addEventListener('click', () => {
   mainPinMarker.setLatLng({
-    lat: 35.677402,
-    lng: 139.754221,
+    lat: TOKIO.lat,
+    lng: TOKIO.lng,
   });
 
   map.setView({
-    lat: 35.677402,
-    lng: 139.754221,
-  }, 11);
+    lat: TOKIO.lat,
+    lng: TOKIO.lng,
+  }, zoom);
 });
 
 
-function generatePoint (offer) {
+const generatePoint = (offer) => {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: pinIconSize,
+    iconAnchor: calculateIconAnchor(pinIconSize),
   });
 
   const lat = offer.location.lat;
@@ -81,6 +94,6 @@ function generatePoint (offer) {
       renderingOffer(offer),
       {
         keepInView: true});
-}
+};
 
 export {generatePoint};

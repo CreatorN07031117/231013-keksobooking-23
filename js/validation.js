@@ -16,11 +16,11 @@ const adTypeList = adForm.querySelector('#type');
 const adRoomsNumberList = adForm.querySelector('#room_number');
 const adCapacityList = adForm.querySelector('#capacity');
 
-function takeCustomMessage (element, message) {
+const takeCustomMessage = (element, message) => {
   element.setCustomValidity(message);
-}
+};
 
-function checkCapacity () {
+const checkCapacity = () => {
   const adRoomsValue = adRoomsNumberList.value;
   const adCapacityValue = adCapacityList.value;
   if(adRoomsValue === ROOMS_NOT_FOR_GUESTS && adCapacityValue === CAPACITY_NOT_FOR_GUESTS) {
@@ -36,11 +36,11 @@ function checkCapacity () {
   }
 
   return adCapacityList.reportValidity();
-}
+};
 
-function changePlaseholder (field, placeholder) {
+const changePlaseholder = (field, placeholder) => {
   field.placeholder = placeholder;
-}
+};
 
 changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
 
