@@ -7,17 +7,17 @@ const TYPE_VARIANT = {
   'bungalow': 'Бунгало',
   'hotel':'Номер в отеле'};
 
-function addText (element, itemClass) {
+const addText = (element, itemClass) => {
   itemClass.textContent = element;
-}
+};
 
-function addHiddenClass (element, itemClass) {
+const addHiddenClass = (element, itemClass) => {
   if (!element) {
     itemClass.classList.add('hidden');
   }
-}
+};
 
-function renderingOffer (offer) {
+const renderingOffer = (offerData) => {
   const offerCardsFragment = document.createDocumentFragment();
   const offerCard = offerCardTemplate.cloneNode(true);
   const offerTitle = offerCard.querySelector('.popup__title');
@@ -33,40 +33,40 @@ function renderingOffer (offer) {
   const offerPhotoItem = offerCard.querySelector('.popup__photo');
   const offerAvatar = offerCard.querySelector('.popup__avatar');
 
-  addText (offer.title, offerTitle);
-  addHiddenClass (offer.title, offerTitle);
+  addText (offerData.offer.title, offerTitle);
+  addHiddenClass (offerData.offer.title, offerTitle);
 
-  addText (offer.address, offerAdress);
-  addHiddenClass (offer.address, offerAdress);
+  addText (offerData.offer.address, offerAdress);
+  addHiddenClass (offerData.offer.address, offerAdress);
 
-  addText (`${offer.price} ₽/ночь`, offerPrice);
-  addHiddenClass (offer.price, offerPrice);
+  addText (`${offerData.offer.price} ₽/ночь`, offerPrice);
+  addHiddenClass (offerData.offer.price, offerPrice);
 
-  addText (TYPE_VARIANT[offer.type], offerType);
-  addHiddenClass (offer.type, offerType);
+  addText (TYPE_VARIANT[offerData.offer.type], offerType);
+  addHiddenClass (offerData.offer.type, offerType);
 
-  addText (`${offer.rooms} комнаты для ${offer.guests} гостей`, offerCapacity);
-  if (!offer.rooms && !offer.guests) {
+  addText (`${offerData.offer.rooms} комнаты для ${offerData.offer.guests} гостей`, offerCapacity);
+  if (!offerData.offer.rooms && !offerData.offer.guests) {
     addHiddenClass (false, offerCapacity);
-  } else if (!offer.rooms) {
-    addText (`Для ${offer.guests} гостей`, offerCapacity);
-  } else if (!offer.guests) {
-    addText (`${offer.rooms} комнаты для гостей`, offerCapacity);
+  } else if (!offerData.offer.rooms) {
+    addText (`Для ${offerData.offer.guests} гостей`, offerCapacity);
+  } else if (!offerData.offer.guests) {
+    addText (`${offerData.offer.rooms} комнаты для гостей`, offerCapacity);
   }
 
-  addText (`Заезд после ${offer.checkin}, выезд до ${offer.checkout}`, offerTime);
-  if (!offer.checkin && !offer.checkout) {
+  addText (`Заезд после ${offerData.offer.checkin}, выезд до ${offerData.offer.checkout}`, offerTime);
+  if (!offerData.offer.checkin && !offerData.offer.checkout) {
     addHiddenClass (false, offerTime);
-  } else if (!offer.checkin) {
-    addText (`Выезд до ${offer.checkout}`, offerTime);
-  } else if (!offer.checkout) {
-    addText (`Заезд после ${offer.checkin}`, offerTime);
+  } else if (!offerData.offer.checkin) {
+    addText (`Выезд до ${offerData.offer.checkout}`, offerTime);
+  } else if (!offerData.offer.checkout) {
+    addText (`Заезд после ${offerData.offer.checkin}`, offerTime);
   }
 
-  if (!offer.features) {
+  if (offerData.offer.features === ''|| offerData.offer.features === undefined) {
     addHiddenClass (false, offerFeatures);
   } else {
-    const classModifiers = offer.features.map((feature) => `popup__feature--${feature}`);
+    const classModifiers = offerData.offer.features.map((feature) => `popup__feature--${feature}`);
     offerFeatureItem.forEach((featureItem) => {
       const modifierItem = featureItem.classList[1];
       if (!classModifiers.includes(modifierItem)) {
@@ -75,34 +75,37 @@ function renderingOffer (offer) {
     });
   }
 
-  addText (offer.description, offerDescription);
-  addHiddenClass (offer.description, offerDescription);
+  addText (offerData.offer.description, offerDescription);
+  addHiddenClass (offerData.offer.description, offerDescription);
 
-  offerPhotos.removeChild(offerPhotoItem);
-  offer.photos.forEach((photoUrl) => {
-    const photo = offerPhotoItemTemplate.cloneNode(true);
-    photo.src = photoUrl;
-    offerPhotos.appendChild(photo);
-  });
-  addHiddenClass (offer.photos, offerPhotos);
+  if (offerData.offer.photos === ''|| offerData.offer.photos === undefined) {
+    addHiddenClass (offerData.offer.photos, offerPhotos);
+  } else {
+    offerPhotos.removeChild(offerPhotoItem);
+    offerData.offer.photos.forEach((photoUrl) => {
+      const photo = offerPhotoItemTemplate.cloneNode(true);
+      photo.src = photoUrl;
+      offerPhotos.appendChild(photo);
+    });
+  }
 
-  offerAvatar.src = offer.author.avatar;
-  addHiddenClass (offer.author, offerAvatar);
+  offerAvatar.src = offerData.author.avatar;
+  addHiddenClass (offerData.author, offerAvatar);
 
   offerCardsFragment.appendChild(offerCard);
 
   return offerCardsFragment;
-}
+};
 
 
-function renderingOfferCards (cards) {
+const renderingOfferCards = (cards) => {
   const offerCardsFragment = document.createDocumentFragment();
   cards.forEach((offer) => {
     renderingOffer(offer);
   });
 
   return offerCardsFragment;
-}
+};
 
 
 export {renderingOfferCards, renderingOffer};

@@ -1,5 +1,5 @@
 import {renderingOffer} from './card.js';
-import {enablePage, disablePage} from './form.js';
+import {enablePage, disablePage} from './page.js';
 
 
 const inputAdress = document.querySelector('#address');
@@ -7,7 +7,7 @@ const adFormReset = document.querySelector('.ad-form__reset');
 const TOKIO = {
   lat: 35.67740,
   lng: 139.75422};
-const zoom = 11;
+const zoom = 12;
 const mainPinSize = [52, 52];
 const pinIconSize = [40, 40];
 
