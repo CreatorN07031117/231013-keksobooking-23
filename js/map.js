@@ -59,7 +59,7 @@ mainPinMarker.on('moveend', (evt) => {
   inputAdress.value = `${latLngMarker.lat.toFixed(5)}, ${latLngMarker.lng.toFixed(5)}`;
 });
 
-adFormReset.addEventListener('click', () => {
+const resetMap = () => {
   mainPinMarker.setLatLng({
     lat: TOKIO.lat,
     lng: TOKIO.lng,
@@ -69,7 +69,11 @@ adFormReset.addEventListener('click', () => {
     lat: TOKIO.lat,
     lng: TOKIO.lng,
   }, zoom);
-});
+
+  inputAdress.value = `${TOKIO.lat}, ${TOKIO.lng}`;
+};
+
+adFormReset.addEventListener('click', () => resetMap());
 
 
 const generatePoint = (offer) => {
@@ -96,4 +100,4 @@ const generatePoint = (offer) => {
         keepInView: true});
 };
 
-export {generatePoint};
+export {generatePoint, resetMap};

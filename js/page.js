@@ -9,8 +9,6 @@ const adTimeOut = adForm.querySelector('#timeout');
 const bodyBlock = document.querySelector('body');
 const successMessageTemlate = document.querySelector ('#success');
 const errorMessageTemplate = document.querySelector ('#error');
-const successClass = document.querySelector('.success');
-const errorClass = document.querySelector('.error');
 
 
 const addClassToElement = (element, className) => {
@@ -76,36 +74,33 @@ const createMessage = (template) => {
 };
 
 const closeMessage = (messageClass) => {
-  const messageElement = messageClass;
-  document.addEventListener('click', () => bodyBlock.removeChild(messageElement),
-  );
-
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      return bodyBlock.removeChild(messageElement);
-    }
-  });
+  bodyBlock.removeChild(messageClass);
 };
 
-const closeSuccessMessage = () => {
-  closeMessage(successClass);
-};
 
 const createSuccessMessage = () => {
-  createMessage(successMessageTemlate);
-};
+  createMessage (successMessageTemlate);
 
-
-const closeErrorMessage = () => {
-  closeMessage(errorClass);
-
-  const errorButton = errorClass.querySelector('.error__button');
-  errorButton.addEventListener('click', () => bodyBlock.removeChild(errorClass));
+  const successClass = document.querySelector('.success');
+  successClass.addEventListener('click', () => closeMessage (successClass));
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closeMessage (successClass);
+    }});
 };
 
 const createErrorsMessage = () => {
   createMessage(errorMessageTemplate);
+  const errorClass = document.querySelector('.error');
+  errorClass.addEventListener('click', () => closeMessage(errorClass));
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closeMessage(errorClass);
+    }});
+  const errorButton = errorClass.querySelector('.error__button');
+  errorButton.addEventListener('click', () => closeMessage(errorClass));
 };
+
 
 //Сообщение об ошибке
 const showAlert = (message) => {
@@ -130,4 +125,4 @@ const showAlert = (message) => {
 };
 
 
-export {disablePage, enablePage, createSuccessMessage, closeSuccessMessage, createErrorsMessage, closeErrorMessage, showAlert};
+export {disablePage, enablePage, createSuccessMessage, createErrorsMessage, showAlert};

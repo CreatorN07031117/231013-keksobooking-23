@@ -21,9 +21,7 @@ const sendOffersData = (onSuccess, onFail, newOffer) => {
       onFail();
     }
   })
-    .catch(() => {
-      onFail();
-    });
+    .catch(() => onFail());
 };
 
 

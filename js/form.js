@@ -90,6 +90,17 @@ adPriceInput.addEventListener('input', () => {
   return adPriceInput.reportValidity();
 });
 
+//Возврат формы в исходное состояние
+const resetForm = () => {
+  adTitleInput.textContent ='';
+  adPriceInput.textContent = '';
+  adDescription.textContent = '';
+};
+
+adFormReset.addEventListener('click', () => resetForm());
+
+
+//Отправка формы
 const setUserFormSubmit = (onSuccess, onFail) => {
   adForm.addEventListener('submit', (evt) => {
     if(!checkCapacity ()) {
@@ -104,11 +115,5 @@ const setUserFormSubmit = (onSuccess, onFail) => {
   });
 };
 
-//Возврат формы в исходное состояние
-adFormReset.addEventListener('click', () => {
-  adTitleInput.textContent ='';
-  adPriceInput.textContent = '';
-  adDescription.textContent = '';
-});
 
-export {setUserFormSubmit};
+export {setUserFormSubmit, resetForm };
