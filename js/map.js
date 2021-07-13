@@ -1,32 +1,34 @@
 import {renderingOffer} from './card.js';
-import {enablePage, disablePage} from './form.js';
+import {enablePage, disablePage} from './page.js';
 
 
-const inputAdress = document.querySelector('#address');
-const adFormReset = document.querySelector('.ad-form__reset');
-const TOKIO = {
+const CENTER_TOKIO = {
   lat: 35.67740,
   lng: 139.75422};
-const zoom = 11;
-const mainPinSize = [52, 52];
-const pinIconSize = [40, 40];
+const ZOOM = 13;
+const MAIN_PIN_SIZE = [52, 52];
+const PIN_ICON_SIZE = [40, 40];
+const inputAdress = document.querySelector('#address');
+
 
 disablePage();
-inputAdress.value = `${TOKIO.lat}, ${TOKIO.lng}`;
+inputAdress.value = `${CENTER_TOKIO.lat}, ${CENTER_TOKIO.lng}`;
 
 const calculateIconAnchor = (iconSize) =>{
   const anchor = iconSize.slice();
   anchor[0] = anchor[0]/2;
+  return anchor;
 };
+
 
 const map = L.map('map-canvas')
   .on('load', () => {
     enablePage();
   })
   .setView({
-    lat: TOKIO.lat,
-    lng: TOKIO.lng,
-  }, zoom);
+    lat: CENTER_TOKIO.lat,
+    lng: CENTER_TOKIO.lng,
+  }, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -37,14 +39,15 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: mainPinSize,
-  iconAnchor: calculateIconAnchor(mainPinSize),
+  iconSize: MAIN_PIN_SIZE,
+  iconAnchor: calculateIconAnchor(MAIN_PIN_SIZE),
 });
+
 
 const mainPinMarker = L.marker(
   {
-    lat: TOKIO.lat,
-    lng: TOKIO.lng,
+    lat: CENTER_TOKIO.lat,
+    lng: CENTER_TOKIO.lng,
   },
   {
     draggable: true,
@@ -59,24 +62,26 @@ mainPinMarker.on('moveend', (evt) => {
   inputAdress.value = `${latLngMarker.lat.toFixed(5)}, ${latLngMarker.lng.toFixed(5)}`;
 });
 
-adFormReset.addEventListener('click', () => {
+
+const resetMap = () => {
   mainPinMarker.setLatLng({
-    lat: TOKIO.lat,
-    lng: TOKIO.lng,
+    lat: CENTER_TOKIO.lat,
+    lng: CENTER_TOKIO.lng,
   });
 
   map.setView({
-    lat: TOKIO.lat,
-    lng: TOKIO.lng,
-  }, zoom);
-});
+    lat: CENTER_TOKIO.lat,
+    lng: CENTER_TOKIO.lng,
+  }, ZOOM);
 
+  inputAdress.value = `${CENTER_TOKIO.lat}, ${CENTER_TOKIO.lng}`;
+};
 
 const generatePoint = (offer) => {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
-    iconSize: pinIconSize,
-    iconAnchor: calculateIconAnchor(pinIconSize),
+    iconSize: PIN_ICON_SIZE,
+    iconAnchor: calculateIconAnchor(PIN_ICON_SIZE),
   });
 
   const lat = offer.location.lat;
@@ -96,4 +101,5 @@ const generatePoint = (offer) => {
         keepInView: true});
 };
 
-export {generatePoint};
+
+export {generatePoint, resetMap};
