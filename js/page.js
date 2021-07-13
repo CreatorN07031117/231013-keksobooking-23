@@ -1,4 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
+const KEY_ESC = 'Esc';
+const KEY_ESCAPE = 'Escape';
 const adForm = document.querySelector('.ad-form');
 const fieldsetAdForm = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
@@ -82,23 +84,44 @@ const createSuccessMessage = () => {
   createMessage (successMessageTemlate);
 
   const successClass = document.querySelector('.success');
-  successClass.addEventListener('click', () => closeMessage (successClass));
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
+  const onEscSuccesMessage = (evt) => {
+    if (evt.key === KEY_ESC || evt.key === KEY_ESCAPE) {
       closeMessage (successClass);
-    }});
+      document.removeEventListener('keydown', onEscSuccesMessage);
+    }
+  };
+
+  successClass.addEventListener('click', () => {
+    closeMessage (successClass);
+    document.removeEventListener('keydown', onEscSuccesMessage);
+  });
+
+  document.addEventListener('keydown', onEscSuccesMessage);
 };
 
 const createErrorsMessage = () => {
   createMessage(errorMessageTemplate);
+
   const errorClass = document.querySelector('.error');
-  errorClass.addEventListener('click', () => closeMessage(errorClass));
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closeMessage(errorClass);
-    }});
+  const onEscErrorMessage = (evt) => {
+    if (evt.key === KEY_ESC || evt.key === KEY_ESCAPE) {
+      closeMessage (errorClass);
+      document.removeEventListener('keydown', onEscErrorMessage);
+    }
+  };
+
+  errorClass.addEventListener('click', () => {
+    closeMessage(errorClass);
+    document.removeEventListener('keydown', onEscErrorMessage);
+  });
+
+  document.addEventListener('keydown', onEscErrorMessage);
+
   const errorButton = errorClass.querySelector('.error__button');
-  errorButton.addEventListener('click', () => closeMessage(errorClass));
+  errorButton.addEventListener('click', () => {
+    closeMessage(errorClass);
+    document.removeEventListener('keydown', onEscErrorMessage);
+  });
 };
 
 

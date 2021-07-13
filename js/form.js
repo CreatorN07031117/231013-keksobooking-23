@@ -19,6 +19,7 @@ const adTypeList = adForm.querySelector('#type');
 const adRoomsNumberList = adForm.querySelector('#room_number');
 const adCapacityList = adForm.querySelector('#capacity');
 const adFormReset = document.querySelector('.ad-form__reset');
+const mapFilters = document.querySelector('.map__filters');
 
 
 const takeCustomMessage = (element, message) => {
@@ -93,7 +94,9 @@ adPriceInput.addEventListener('input', () => {
 adFormReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   adForm.reset();
+  mapFilters.reset();
   resetMap();
+  changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
 });
 
 
@@ -101,16 +104,20 @@ adFormReset.addEventListener('click', (evt) => {
 const setUserFormSubmit = (onSuccess, onFail) => {
   adForm.addEventListener('submit', (evt) => {
     if(!checkCapacity ()) {
-      evt.preventDefault();
+      return  evt.preventDefault();
     }
 
     evt.preventDefault();
     sendOffersData (
-      () => onSuccess(),
+      () => {
+        onSuccess();
+        adForm.reset();
+        mapFilters.reset();
+        resetMap();
+        changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
+      },
       () => onFail(),
       new FormData(evt.target));
-    adForm.reset();
-    resetMap();
   });
 };
 

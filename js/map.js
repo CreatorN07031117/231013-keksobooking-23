@@ -2,29 +2,32 @@ import {renderingOffer} from './card.js';
 import {enablePage, disablePage} from './page.js';
 
 
-const TOKIO = {
+const CENTER_TOKIO = {
   lat: 35.67740,
   lng: 139.75422};
-const inputAdress = document.querySelector('#address');
 const ZOOM = 13;
-const mainPinSize = [52, 52];
-const pinIconSize = [40, 40];
+const MAIN_PIN_SIZE = [52, 52];
+const PIN_ICON_SIZE = [40, 40];
+const inputAdress = document.querySelector('#address');
+
 
 disablePage();
-inputAdress.value = `${TOKIO.lat}, ${TOKIO.lng}`;
+inputAdress.value = `${CENTER_TOKIO.lat}, ${CENTER_TOKIO.lng}`;
 
 const calculateIconAnchor = (iconSize) =>{
   const anchor = iconSize.slice();
   anchor[0] = anchor[0]/2;
+  return anchor;
 };
+
 
 const map = L.map('map-canvas')
   .on('load', () => {
     enablePage();
   })
   .setView({
-    lat: TOKIO.lat,
-    lng: TOKIO.lng,
+    lat: CENTER_TOKIO.lat,
+    lng: CENTER_TOKIO.lng,
   }, ZOOM);
 
 L.tileLayer(
@@ -36,14 +39,15 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: mainPinSize,
-  iconAnchor: calculateIconAnchor(mainPinSize),
+  iconSize: MAIN_PIN_SIZE,
+  iconAnchor: calculateIconAnchor(MAIN_PIN_SIZE),
 });
+
 
 const mainPinMarker = L.marker(
   {
-    lat: TOKIO.lat,
-    lng: TOKIO.lng,
+    lat: CENTER_TOKIO.lat,
+    lng: CENTER_TOKIO.lng,
   },
   {
     draggable: true,
@@ -61,23 +65,23 @@ mainPinMarker.on('moveend', (evt) => {
 
 const resetMap = () => {
   mainPinMarker.setLatLng({
-    lat: TOKIO.lat,
-    lng: TOKIO.lng,
+    lat: CENTER_TOKIO.lat,
+    lng: CENTER_TOKIO.lng,
   });
 
   map.setView({
-    lat: TOKIO.lat,
-    lng: TOKIO.lng,
+    lat: CENTER_TOKIO.lat,
+    lng: CENTER_TOKIO.lng,
   }, ZOOM);
 
-  inputAdress.value = `${TOKIO.lat}, ${TOKIO.lng}`;
+  inputAdress.value = `${CENTER_TOKIO.lat}, ${CENTER_TOKIO.lng}`;
 };
 
 const generatePoint = (offer) => {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
-    iconSize: pinIconSize,
-    iconAnchor: calculateIconAnchor(pinIconSize),
+    iconSize: PIN_ICON_SIZE,
+    iconAnchor: calculateIconAnchor(PIN_ICON_SIZE),
   });
 
   const lat = offer.location.lat;
