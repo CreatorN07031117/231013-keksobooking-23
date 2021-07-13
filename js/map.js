@@ -2,12 +2,11 @@ import {renderingOffer} from './card.js';
 import {enablePage, disablePage} from './page.js';
 
 
-const inputAdress = document.querySelector('#address');
-const adFormReset = document.querySelector('.ad-form__reset');
 const TOKIO = {
   lat: 35.67740,
   lng: 139.75422};
-const zoom = 12;
+const inputAdress = document.querySelector('#address');
+const ZOOM = 13;
 const mainPinSize = [52, 52];
 const pinIconSize = [40, 40];
 
@@ -26,7 +25,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: TOKIO.lat,
     lng: TOKIO.lng,
-  }, zoom);
+  }, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -59,6 +58,7 @@ mainPinMarker.on('moveend', (evt) => {
   inputAdress.value = `${latLngMarker.lat.toFixed(5)}, ${latLngMarker.lng.toFixed(5)}`;
 });
 
+
 const resetMap = () => {
   mainPinMarker.setLatLng({
     lat: TOKIO.lat,
@@ -68,13 +68,10 @@ const resetMap = () => {
   map.setView({
     lat: TOKIO.lat,
     lng: TOKIO.lng,
-  }, zoom);
+  }, ZOOM);
 
   inputAdress.value = `${TOKIO.lat}, ${TOKIO.lng}`;
 };
-
-adFormReset.addEventListener('click', () => resetMap());
-
 
 const generatePoint = (offer) => {
   const icon = L.icon({
@@ -99,5 +96,6 @@ const generatePoint = (offer) => {
       {
         keepInView: true});
 };
+
 
 export {generatePoint, resetMap};

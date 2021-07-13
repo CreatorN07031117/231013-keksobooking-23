@@ -1,4 +1,5 @@
 import {sendOffersData} from './fetch-data.js';
+import {resetMap} from './map.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -17,7 +18,6 @@ const adPriceInput = adForm.querySelector('#price');
 const adTypeList = adForm.querySelector('#type');
 const adRoomsNumberList = adForm.querySelector('#room_number');
 const adCapacityList = adForm.querySelector('#capacity');
-const adDescription = adForm.querySelector('#description');
 const adFormReset = document.querySelector('.ad-form__reset');
 
 
@@ -31,13 +31,13 @@ const checkCapacity = () => {
   if(adRoomsValue === ROOMS_NOT_FOR_GUESTS && adCapacityValue === CAPACITY_NOT_FOR_GUESTS) {
     takeCustomMessage(adCapacityList, '');
   } else if (adRoomsValue === ROOMS_NOT_FOR_GUESTS) {
-    takeCustomMessage(adCapacityList, 'Не подходит для размещения гостей');
+    takeCustomMessage (adCapacityList, 'Не подходит для размещения гостей');
   } else if (adCapacityValue === CAPACITY_NOT_FOR_GUESTS) {
-    takeCustomMessage(adCapacityList, 'Укажите количество гостей');
+    takeCustomMessage (adCapacityList, 'Укажите количество гостей');
   } else if (adRoomsValue < adCapacityValue) {
-    takeCustomMessage(adCapacityList, `Не подходит для размещения ${adCapacityValue} гостей. Количество гостей должно быть не больше количества комнат `);
+    takeCustomMessage (adCapacityList, `Не подходит для размещения ${adCapacityValue} гостей. Количество гостей должно быть не больше количества комнат `);
   } else {
-    takeCustomMessage(adCapacityList, '');
+    takeCustomMessage (adCapacityList, '');
   }
 
   return adCapacityList.reportValidity();
@@ -58,18 +58,18 @@ adRoomsNumberList.addEventListener('change', () => {
 });
 
 adTypeList.addEventListener('change', () => {
-  changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
+  changePlaseholder (adPriceInput, MIN_PRICE[adTypeList.value]);
 });
 
 adTitleInput.addEventListener('input', () => {
   const valueLength = adTitleInput.value.length;
 
   if (valueLength < MIN_TITLE_LENGTH) {
-    takeCustomMessage(adTitleInput, `Минимальная длина ${MIN_TITLE_LENGTH} симв. Введите ещё ${  MIN_TITLE_LENGTH - valueLength } симв.`);
+    takeCustomMessage (adTitleInput, `Минимальная длина ${MIN_TITLE_LENGTH} симв. Введите ещё ${  MIN_TITLE_LENGTH - valueLength } симв.`);
   } else if (valueLength > MAX_TITLE_LENGTH) {
-    takeCustomMessage(adTitleInput, `Максимальная длина ${MAX_TITLE_LENGTH } симв. Удалите лишние ${  valueLength - MAX_TITLE_LENGTH } симв.`);
+    takeCustomMessage (adTitleInput, `Максимальная длина ${MAX_TITLE_LENGTH } симв. Удалите лишние ${  valueLength - MAX_TITLE_LENGTH } симв.`);
   } else {
-    takeCustomMessage(adTitleInput, '');
+    takeCustomMessage (adTitleInput, '');
   }
 
   return adTitleInput.reportValidity();
@@ -80,24 +80,21 @@ adPriceInput.addEventListener('input', () => {
   const value = adPriceInput.value;
 
   if (value < MIN_PRICE[adTypeValue]) {
-    takeCustomMessage(adPriceInput, `Цена должна быть больше ${MIN_PRICE[adTypeValue]}`);
+    takeCustomMessage (adPriceInput, `Цена должна быть больше ${MIN_PRICE[adTypeValue]}`);
   } else if (value > MAX_PRICE) {
-    takeCustomMessage(adPriceInput, `Цена должна быть не больше ${MAX_PRICE}`);
+    takeCustomMessage (adPriceInput, `Цена должна быть не больше ${MAX_PRICE}`);
   } else {
-    takeCustomMessage(adPriceInput, '');
+    takeCustomMessage (adPriceInput, '');
   }
 
   return adPriceInput.reportValidity();
 });
 
-//Возврат формы в исходное состояние
-const resetForm = () => {
-  adTitleInput.textContent ='';
-  adPriceInput.textContent = '';
-  adDescription.textContent = '';
-};
-
-adFormReset.addEventListener('click', () => resetForm());
+adFormReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  resetMap();
+});
 
 
 //Отправка формы
@@ -112,8 +109,10 @@ const setUserFormSubmit = (onSuccess, onFail) => {
       () => onSuccess(),
       () => onFail(),
       new FormData(evt.target));
+    adForm.reset();
+    resetMap();
   });
 };
 
 
-export {setUserFormSubmit, resetForm };
+export {setUserFormSubmit};
