@@ -77,6 +77,9 @@ const resetMap = () => {
   inputAdress.value = `${CENTER_TOKIO.lat}, ${CENTER_TOKIO.lng}`;
 };
 
+
+const markerGroup = L.layerGroup().addTo(map);
+
 const generatePoint = (offer) => {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
@@ -93,13 +96,19 @@ const generatePoint = (offer) => {
     icon: icon,
   });
 
+  marker.remove();
+
   marker
-    .addTo(map)
+    .addTo(markerGroup)
     .bindPopup(
       renderingOffer(offer),
       {
         keepInView: true});
 };
 
+const clearPoints = () => {
+  markerGroup.clearLayers();
+};
 
-export {generatePoint, resetMap};
+
+export {generatePoint, resetMap, clearPoints};

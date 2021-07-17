@@ -12,7 +12,7 @@ const addText = (element, itemClass) => {
 };
 
 const addHiddenClass = (element, itemClass) => {
-  if (!element) {
+  if (!element || element === 'any') {
     itemClass.classList.add('hidden');
   }
 };
@@ -48,9 +48,11 @@ const renderingOffer = (offerData) => {
   addText (`${offerData.offer.rooms} комнаты для ${offerData.offer.guests} гостей`, offerCapacity);
   if (!offerData.offer.rooms && !offerData.offer.guests) {
     addHiddenClass (false, offerCapacity);
-  } else if (!offerData.offer.rooms) {
+  } else if (offerData.offer.rooms === 'any' && offerData.offer.guests === 'any' ){
+    addHiddenClass (false, offerCapacity);
+  }else if (!offerData.offer.rooms || offerData.offer.rooms === 'any') {
     addText (`Для ${offerData.offer.guests} гостей`, offerCapacity);
-  } else if (!offerData.offer.guests) {
+  } else if (!offerData.offer.guests || offerData.offer.guests === 'any') {
     addText (`${offerData.offer.rooms} комнаты для гостей`, offerCapacity);
   }
 
