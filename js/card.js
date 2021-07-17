@@ -6,14 +6,13 @@ const TYPE_VARIANT = {
   'house': 'Дом',
   'bungalow': 'Бунгало',
   'hotel':'Номер в отеле'};
-const ANY_VALUE = 'any';
 
 const addText = (element, itemClass) => {
   itemClass.textContent = element;
 };
 
 const addHiddenClass = (element, itemClass) => {
-  if (!element || element === ANY_VALUE) {
+  if (!element) {
     itemClass.classList.add('hidden');
   }
 };
@@ -49,11 +48,9 @@ const renderingOffer = (offerData) => {
   addText (`${offerData.offer.rooms} комнаты для ${offerData.offer.guests} гостей`, offerCapacity);
   if (!offerData.offer.rooms && !offerData.offer.guests) {
     addHiddenClass (false, offerCapacity);
-  } else if (offerData.offer.rooms === ANY_VALUE && offerData.offer.guests === ANY_VALUE ){
-    addHiddenClass (false, offerCapacity);
-  } else if (!offerData.offer.rooms || offerData.offer.rooms === ANY_VALUE) {
+  } else if (!offerData.offer.rooms) {
     addText (`Для ${offerData.offer.guests} гостей`, offerCapacity);
-  } else if (!offerData.offer.guests || offerData.offer.guests === ANY_VALUE) {
+  } else if (!offerData.offer.guests) {
     addText (`${offerData.offer.rooms} комнаты для гостей`, offerCapacity);
   }
 
