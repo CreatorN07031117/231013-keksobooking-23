@@ -6,13 +6,14 @@ const TYPE_VARIANT = {
   'house': 'Дом',
   'bungalow': 'Бунгало',
   'hotel':'Номер в отеле'};
+const ANY_VALUE = 'any';
 
 const addText = (element, itemClass) => {
   itemClass.textContent = element;
 };
 
 const addHiddenClass = (element, itemClass) => {
-  if (!element || element === 'any') {
+  if (!element || element === ANY_VALUE) {
     itemClass.classList.add('hidden');
   }
 };
@@ -48,11 +49,11 @@ const renderingOffer = (offerData) => {
   addText (`${offerData.offer.rooms} комнаты для ${offerData.offer.guests} гостей`, offerCapacity);
   if (!offerData.offer.rooms && !offerData.offer.guests) {
     addHiddenClass (false, offerCapacity);
-  } else if (offerData.offer.rooms === 'any' && offerData.offer.guests === 'any' ){
+  } else if (offerData.offer.rooms === ANY_VALUE && offerData.offer.guests === ANY_VALUE ){
     addHiddenClass (false, offerCapacity);
-  }else if (!offerData.offer.rooms || offerData.offer.rooms === 'any') {
+  } else if (!offerData.offer.rooms || offerData.offer.rooms === ANY_VALUE) {
     addText (`Для ${offerData.offer.guests} гостей`, offerCapacity);
-  } else if (!offerData.offer.guests || offerData.offer.guests === 'any') {
+  } else if (!offerData.offer.guests || offerData.offer.guests === ANY_VALUE) {
     addText (`${offerData.offer.rooms} комнаты для гостей`, offerCapacity);
   }
 
@@ -65,7 +66,7 @@ const renderingOffer = (offerData) => {
     addText (`Заезд после ${offerData.offer.checkin}`, offerTime);
   }
 
-  if (offerData.offer.features === ''|| offerData.offer.features === undefined) {
+  if (!offerData.offer.features || offerData.offer.features.length === 0) {
     addHiddenClass (false, offerFeatures);
   } else {
     const classModifiers = offerData.offer.features.map((feature) => `popup__feature--${feature}`);
@@ -100,14 +101,4 @@ const renderingOffer = (offerData) => {
 };
 
 
-const renderingOfferCards = (cards) => {
-  const offerCardsFragment = document.createDocumentFragment();
-  cards.forEach((offer) => {
-    renderingOffer(offer);
-  });
-
-  return offerCardsFragment;
-};
-
-
-export {renderingOfferCards, renderingOffer};
+export {renderingOffer};
