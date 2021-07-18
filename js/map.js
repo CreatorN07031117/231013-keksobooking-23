@@ -1,5 +1,5 @@
 import {renderOffer} from './card.js';
-import {enablePage, disablePage} from './page.js';
+import {enableForm, disablePage} from './page.js';
 
 const CENTER_TOKIO = {
   lat: 35.67740,
@@ -23,6 +23,9 @@ const calculateIconAnchor = (iconSize) =>{
 
 
 const map = L.map('map-canvas')
+  .on('load', () => {
+    enableForm();
+  })
   .setView({
     lat: CENTER_TOKIO.lat,
     lng: CENTER_TOKIO.lng,
@@ -33,10 +36,7 @@ L.tileLayer(
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   })
-  .addTo(map)
-  .on('load', () => {
-    enablePage();
-  });
+  .addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',

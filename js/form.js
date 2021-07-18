@@ -124,6 +124,7 @@ adPriceInput.addEventListener('input', debounce(() => {
   return adPriceInput.reportValidity();
 }), RERENDER_DELAY);
 
+
 //Выбор аватарки и фото в объявление
 
 avatarChooser.addEventListener('change', () => {
@@ -177,14 +178,15 @@ const resetDownloadImage = () => {
   }
 };
 
-adTitleInput.reportValidity();
-
 //Сброс полей формы
 
 adFormReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   adForm.reset();
   resetDownloadImage();
+  removeErrorInputClass(adPriceInput);
+  removeErrorInputClass(adTitleInput);
+  removeErrorInputClass(adCapacityList);
   mapFilters.reset();
   resetMap();
   changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);

@@ -1,7 +1,7 @@
 import {generatePoint, clearPoints} from './map.js';
 import {setFilterChange, compareOffersWithFilters} from './filters.js';
 import './card.js';
-import {createSuccessMessage, createErrorsMessage, showAlert} from './page.js';
+import {createSuccessMessage, createErrorsMessage, showAlert, enableMapFilter} from './page.js';
 import {setUserFormSubmit} from './form.js';
 import {getOffersData} from './fetch-data.js';
 import './filters.js';
@@ -17,6 +17,8 @@ getOffersData((offers) => {
     .slice(0, OFFERS_QUANTITY).forEach((offer) => {
       generatePoint (offer);
     });
+
+  enableMapFilter();
 
   const generateFilteredOffers = () => {
     offers

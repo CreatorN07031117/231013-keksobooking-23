@@ -41,12 +41,15 @@ const disablePage = () => {
   toggleAttributeDisabled (mapFilterFieldset, true);
 };
 
-const enablePage = () => {
+const enableForm = () => {
   removeClassToElement (adForm, 'ad-form--disabled');
   fieldsetAdForm.forEach((field) => {
     toggleAttributeDisabled (field, false);
   });
 
+};
+
+const enableMapFilter = () => {
   removeClassToElement (mapFilters, 'map__filters--disabled');
   mapFilter.forEach((field) => {
     toggleAttributeDisabled (field, false);
@@ -149,4 +152,4 @@ const showAlert = (message) => {
 };
 
 
-export {disablePage, enablePage, createSuccessMessage, createErrorsMessage, showAlert};
+export {disablePage, enableForm, enableMapFilter, createSuccessMessage, createErrorsMessage, showAlert};
