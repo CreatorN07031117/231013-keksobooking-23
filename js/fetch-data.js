@@ -1,6 +1,7 @@
 const RECEIVING_SERVER_URL = 'https://23.javascript.pages.academy/keksobooking/data';
 const SENGING_SERVER_URL = 'https://23.javascript.pages.academy/keksobooking';
 
+
 const getOffersData = (onSuccess, onFail) => {
   fetch(RECEIVING_SERVER_URL)
     .then((response) => response.json())

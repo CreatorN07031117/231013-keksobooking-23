@@ -1,7 +1,6 @@
 import {renderingOffer} from './card.js';
 import {enablePage, disablePage} from './page.js';
 
-
 const CENTER_TOKIO = {
   lat: 35.67740,
   lng: 139.75422};
@@ -9,6 +8,7 @@ const ZOOM = 13;
 const MAIN_PIN_SIZE = [52, 52];
 const PIN_ICON_SIZE = [40, 40];
 const ROUNDING_ACCURACY = 5;
+
 const inputAdress = document.querySelector('#address');
 
 

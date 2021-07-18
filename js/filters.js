@@ -9,6 +9,7 @@ const HOUSING_PRICE_MIN = {
 const REQURED_QUALITY  = ['typeMatch', 'priceMatch', 'roomsMatch', 'guestsMatch', 'featuresMatch'];
 const QUALITY_NOT_MATCH = 'notMatch';
 const ANY_VALUE = 'any';
+
 const mapFilters = document.querySelector('.map__filters');
 const housingType = mapFilters.querySelector('#housing-type');
 const housingPrice = mapFilters.querySelector('#housing-price');

@@ -1,11 +1,13 @@
-const offerCardTemplate = document.querySelector('#card').content;
-const offerPhotoItemTemplate = offerCardTemplate.querySelector('.popup__photo');
 const TYPE_VARIANT = {
   'palace': 'Дворец',
   'flat': 'Квартира',
   'house': 'Дом',
   'bungalow': 'Бунгало',
   'hotel':'Номер в отеле'};
+
+const offerCardTemplate = document.querySelector('#card').content;
+const offerPhotoItemTemplate = offerCardTemplate.querySelector('.popup__photo');
+
 
 const addText = (element, itemClass) => {
   itemClass.textContent = element;
@@ -78,7 +80,7 @@ const renderingOffer = (offerData) => {
   addText (offerData.offer.description, offerDescription);
   addHiddenClass (offerData.offer.description, offerDescription);
 
-  if (offerData.offer.photos === ''|| offerData.offer.photos === undefined) {
+  if (!offerData.offer.photos || offerData.offer.photos.length === 0) {
     addHiddenClass (offerData.offer.photos, offerPhotos);
   } else {
     offerPhotos.removeChild(offerPhotoItem);

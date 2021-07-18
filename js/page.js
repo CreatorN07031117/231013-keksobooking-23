@@ -1,6 +1,7 @@
 const ALERT_SHOW_TIME = 5000;
 const KEY_ESC = 'Esc';
 const KEY_ESCAPE = 'Escape';
+
 const adForm = document.querySelector('.ad-form');
 const fieldsetAdForm = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');

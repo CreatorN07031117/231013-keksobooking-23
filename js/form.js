@@ -14,12 +14,20 @@ const MIN_PRICE = {
   'palace': 10000};
 const ROOMS_NOT_FOR_GUESTS = '100';
 const CAPACITY_NOT_FOR_GUESTS = '0';
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const PREVIEW_SIZE = '70px';
+const DEFAULT_AVATAR = 'img/muffin-grey.svg';
+
 const adForm = document.querySelector('.ad-form');
 const adTitleInput = adForm.querySelector('#title');
 const adPriceInput = adForm.querySelector('#price');
 const adTypeList = adForm.querySelector('#type');
 const adRoomsNumberList = adForm.querySelector('#room_number');
 const adCapacityList = adForm.querySelector('#capacity');
+const avatarChooser = adForm.querySelector('#avatar');
+const avatarPreview = adForm.querySelector('.ad-form-header__preview-img');
+const imageChooser = adForm.querySelector('#images');
+const imagePreview = adForm.querySelector('.ad-form__photo');
 const adFormReset = document.querySelector('.ad-form__reset');
 const mapFilters = document.querySelector('.map__filters');
 
@@ -94,9 +102,65 @@ adPriceInput.addEventListener('input', debounce(() => {
   return adPriceInput.reportValidity();
 }), RERENDER_DELAY);
 
+//Выбор аватарки и фото в объявление
+
+avatarChooser.addEventListener('change', () => {
+  const file = avatarChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      avatarPreview.src = reader.result;
+    });
+
+    reader.readAsDataURL(file);
+  }
+});
+
+imageChooser.addEventListener('change', () => {
+  const file = imageChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      if (!(imagePreview.children.length === 0)) {
+        const chooseImg = imagePreview.querySelector('.ad-form__photo-img');
+        imagePreview.removeChild(chooseImg);
+      }
+      const previewImg =  document.createElement('img');
+      previewImg.classList.add('ad-form__photo-img');
+      previewImg.src = reader.result;
+      previewImg.style.width = PREVIEW_SIZE;
+      previewImg.style.height = PREVIEW_SIZE;
+      imagePreview.appendChild(previewImg);
+    });
+
+    reader.readAsDataURL(file);
+  }
+});
+
+const resetDownloadImage = () => {
+  avatarPreview.src = DEFAULT_AVATAR;
+  if (!(imagePreview.children.length === 0)) {
+    const chooseImg = imagePreview.querySelector('.ad-form__photo-img');
+    imagePreview.removeChild(chooseImg);
+  }
+};
+
+//Сброс полей формы
+
 adFormReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   adForm.reset();
+  resetDownloadImage();
   mapFilters.reset();
   resetMap();
   changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
@@ -115,6 +179,7 @@ const setUserFormSubmit = (onSuccess, onFail) => {
       () => {
         onSuccess();
         adForm.reset();
+        resetDownloadImage();
         mapFilters.reset();
         resetMap();
         changePlaseholder(adPriceInput, MIN_PRICE[adTypeList.value]);
