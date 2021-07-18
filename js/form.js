@@ -36,19 +36,32 @@ const takeCustomMessage = (element, message) => {
   element.setCustomValidity(message);
 };
 
+const setErrorInputClass = (el) => {
+  el.classList.add('error-input');
+};
+
+const removeErrorInputClass = (el) => {
+  el.classList.remove('error-input');
+};
+
 const checkCapacity = () => {
   const adRoomsValue = adRoomsNumberList.value;
   const adCapacityValue = adCapacityList.value;
   if(adRoomsValue === ROOMS_NOT_FOR_GUESTS && adCapacityValue === CAPACITY_NOT_FOR_GUESTS) {
     takeCustomMessage(adCapacityList, '');
+    setErrorInputClass(adCapacityList);
   } else if (adRoomsValue === ROOMS_NOT_FOR_GUESTS) {
     takeCustomMessage (adCapacityList, 'Не подходит для размещения гостей');
+    setErrorInputClass(adCapacityList);
   } else if (adCapacityValue === CAPACITY_NOT_FOR_GUESTS) {
     takeCustomMessage (adCapacityList, 'Укажите количество гостей');
+    setErrorInputClass(adCapacityList);
   } else if (adRoomsValue < adCapacityValue) {
     takeCustomMessage (adCapacityList, `Не подходит для размещения ${adCapacityValue} гостей. Количество гостей должно быть не больше количества комнат `);
+    setErrorInputClass(adCapacityList);
   } else {
     takeCustomMessage (adCapacityList, '');
+    removeErrorInputClass(adCapacityList);
   }
 
   return adCapacityList.reportValidity();
@@ -72,15 +85,19 @@ adTypeList.addEventListener('change', () => {
   changePlaseholder (adPriceInput, MIN_PRICE[adTypeList.value]);
 });
 
+
 adTitleInput.addEventListener('input', debounce(() => {
   const valueLength = adTitleInput.value.length;
 
   if (valueLength < MIN_TITLE_LENGTH) {
     takeCustomMessage (adTitleInput, `Минимальная длина ${MIN_TITLE_LENGTH} симв. Введите ещё ${  MIN_TITLE_LENGTH - valueLength } симв.`);
+    setErrorInputClass(adTitleInput);
   } else if (valueLength > MAX_TITLE_LENGTH) {
     takeCustomMessage (adTitleInput, `Максимальная длина ${MAX_TITLE_LENGTH } симв. Удалите лишние ${  valueLength - MAX_TITLE_LENGTH } симв.`);
+    setErrorInputClass(adTitleInput);
   } else {
     takeCustomMessage (adTitleInput, '');
+    removeErrorInputClass(adTitleInput);
   }
 
   return adTitleInput.reportValidity();
@@ -91,12 +108,17 @@ adPriceInput.addEventListener('input', debounce(() => {
   const adTypeValue = adTypeList.value;
   const value = adPriceInput.value;
 
-  if (value < MIN_PRICE[adTypeValue]) {
+  if (adTypeValue.length === 0) {
+    setErrorInputClass(adPriceInput);
+  } else if (value < MIN_PRICE[adTypeValue]) {
     takeCustomMessage (adPriceInput, `Цена должна быть больше ${MIN_PRICE[adTypeValue]}`);
+    setErrorInputClass(adPriceInput);
   } else if (value > MAX_PRICE) {
     takeCustomMessage (adPriceInput, `Цена должна быть не больше ${MAX_PRICE}`);
+    setErrorInputClass(adPriceInput);
   } else {
     takeCustomMessage (adPriceInput, '');
+    removeErrorInputClass(adPriceInput);
   }
 
   return adPriceInput.reportValidity();
@@ -155,6 +177,9 @@ const resetDownloadImage = () => {
   }
 };
 
+adTitleInput.reportValidity();
+adPriceInput.reportValidity();
+
 //Сброс полей формы
 
 adFormReset.addEventListener('click', (evt) => {
@@ -170,7 +195,12 @@ adFormReset.addEventListener('click', (evt) => {
 //Отправка формы
 const setUserFormSubmit = (onSuccess, onFail) => {
   adForm.addEventListener('submit', (evt) => {
-    if(!checkCapacity ()) {
+    if (!adTitleInput.reportValidity()) {
+      setErrorInputClass(adTitleInput);
+      adPriceInput.reportValidity();
+      checkCapacity ();
+      return  evt.preventDefault();
+    } else if (!checkCapacity ()) {
       return  evt.preventDefault();
     }
 
