@@ -178,7 +178,6 @@ const resetDownloadImage = () => {
 };
 
 adTitleInput.reportValidity();
-adPriceInput.reportValidity();
 
 //Сброс полей формы
 

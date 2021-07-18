@@ -23,9 +23,6 @@ const calculateIconAnchor = (iconSize) =>{
 
 
 const map = L.map('map-canvas')
-  .on('load', () => {
-    enablePage();
-  })
   .setView({
     lat: CENTER_TOKIO.lat,
     lng: CENTER_TOKIO.lng,
@@ -35,8 +32,11 @@ L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+  },)
+  .addTo(map)
+  .on('load', () => {
+    enablePage();
+  });
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -103,8 +103,7 @@ const generatePoint = (offer) => {
     .addTo(markerGroup)
     .bindPopup(
       renderingOffer(offer),
-      {
-        keepInView: true});
+      {keepInView: true});
 };
 
 const clearPoints = () => {

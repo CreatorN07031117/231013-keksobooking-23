@@ -12,7 +12,6 @@ const RERENDER_DELAY = 500;
 
 const adFormReset = document.querySelector('.ad-form__reset');
 
-
 getOffersData((offers) => {
   offers
     .slice(0, OFFERS_QUANTITY).forEach((offer) => {
