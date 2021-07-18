@@ -1,4 +1,4 @@
-import {renderingOffer} from './card.js';
+import {renderOffer} from './card.js';
 import {enablePage, disablePage} from './page.js';
 
 const CENTER_TOKIO = {
@@ -32,7 +32,7 @@ L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },)
+  })
   .addTo(map)
   .on('load', () => {
     enablePage();
@@ -102,7 +102,7 @@ const generatePoint = (offer) => {
   marker
     .addTo(markerGroup)
     .bindPopup(
-      renderingOffer(offer),
+      renderOffer(offer),
       {keepInView: true});
 };
 

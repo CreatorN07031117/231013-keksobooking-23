@@ -5,7 +5,7 @@ const TYPE_VARIANT = {
   'bungalow': 'Бунгало',
   'hotel':'Номер в отеле'};
 
-const offerCardTemplate = document.querySelector('#card').content;
+const offerCardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const offerPhotoItemTemplate = offerCardTemplate.querySelector('.popup__photo');
 
 
@@ -19,8 +19,7 @@ const addHiddenClass = (element, itemClass) => {
   }
 };
 
-const renderingOffer = (offerData) => {
-  const offerCardsFragment = document.createDocumentFragment();
+const renderOffer = (offerData) => {
   const offerCard = offerCardTemplate.cloneNode(true);
   const offerTitle = offerCard.querySelector('.popup__title');
   const offerAdress = offerCard.querySelector('.popup__text--address');
@@ -94,10 +93,8 @@ const renderingOffer = (offerData) => {
   offerAvatar.src = offerData.author.avatar;
   addHiddenClass (offerData.author, offerAvatar);
 
-  offerCardsFragment.appendChild(offerCard);
-
-  return offerCardsFragment;
+  return offerCard;
 };
 
 
-export {renderingOffer};
+export {renderOffer};
