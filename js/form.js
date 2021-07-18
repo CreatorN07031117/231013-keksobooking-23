@@ -1,6 +1,8 @@
 import {sendOffersData} from './fetch-data.js';
 import {resetMap} from './map.js';
+import {debounce} from  './utils/debounce.js';
 
+const RERENDER_DELAY = 500;
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
@@ -62,7 +64,7 @@ adTypeList.addEventListener('change', () => {
   changePlaseholder (adPriceInput, MIN_PRICE[adTypeList.value]);
 });
 
-adTitleInput.addEventListener('input', () => {
+adTitleInput.addEventListener('input', debounce(() => {
   const valueLength = adTitleInput.value.length;
 
   if (valueLength < MIN_TITLE_LENGTH) {
@@ -74,9 +76,10 @@ adTitleInput.addEventListener('input', () => {
   }
 
   return adTitleInput.reportValidity();
-});
+},
+RERENDER_DELAY));
 
-adPriceInput.addEventListener('input', () => {
+adPriceInput.addEventListener('input', debounce(() => {
   const adTypeValue = adTypeList.value;
   const value = adPriceInput.value;
 
@@ -89,7 +92,7 @@ adPriceInput.addEventListener('input', () => {
   }
 
   return adPriceInput.reportValidity();
-});
+}), RERENDER_DELAY);
 
 adFormReset.addEventListener('click', (evt) => {
   evt.preventDefault();

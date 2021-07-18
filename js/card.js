@@ -63,7 +63,7 @@ const renderingOffer = (offerData) => {
     addText (`Заезд после ${offerData.offer.checkin}`, offerTime);
   }
 
-  if (offerData.offer.features === ''|| offerData.offer.features === undefined) {
+  if (!offerData.offer.features || offerData.offer.features.length === 0) {
     addHiddenClass (false, offerFeatures);
   } else {
     const classModifiers = offerData.offer.features.map((feature) => `popup__feature--${feature}`);
@@ -98,14 +98,4 @@ const renderingOffer = (offerData) => {
 };
 
 
-const renderingOfferCards = (cards) => {
-  const offerCardsFragment = document.createDocumentFragment();
-  cards.forEach((offer) => {
-    renderingOffer(offer);
-  });
-
-  return offerCardsFragment;
-};
-
-
-export {renderingOfferCards, renderingOffer};
+export {renderingOffer};

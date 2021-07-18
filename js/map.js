@@ -8,6 +8,7 @@ const CENTER_TOKIO = {
 const ZOOM = 13;
 const MAIN_PIN_SIZE = [52, 52];
 const PIN_ICON_SIZE = [40, 40];
+const ROUNDING_ACCURACY = 5;
 const inputAdress = document.querySelector('#address');
 
 
@@ -59,7 +60,7 @@ mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
   const latLngMarker = evt.target.getLatLng();
-  inputAdress.value = `${latLngMarker.lat.toFixed(5)}, ${latLngMarker.lng.toFixed(5)}`;
+  inputAdress.value = `${latLngMarker.lat.toFixed(ROUNDING_ACCURACY)}, ${latLngMarker.lng.toFixed(ROUNDING_ACCURACY)}`;
 });
 
 
@@ -77,6 +78,9 @@ const resetMap = () => {
   inputAdress.value = `${CENTER_TOKIO.lat}, ${CENTER_TOKIO.lng}`;
 };
 
+
+const markerGroup = L.layerGroup().addTo(map);
+
 const generatePoint = (offer) => {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
@@ -93,13 +97,19 @@ const generatePoint = (offer) => {
     icon: icon,
   });
 
+  marker.remove();
+
   marker
-    .addTo(map)
+    .addTo(markerGroup)
     .bindPopup(
       renderingOffer(offer),
       {
         keepInView: true});
 };
 
+const clearPoints = () => {
+  markerGroup.clearLayers();
+};
 
-export {generatePoint, resetMap};
+
+export {generatePoint, resetMap, clearPoints};
