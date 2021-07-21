@@ -6,8 +6,6 @@ const HOUSING_PRICE_MIN = {
   low: 0,
   middle: 10000,
   high: 50000};
-const REQURED_QUALITY  = ['typeMatch', 'priceMatch', 'roomsMatch', 'guestsMatch', 'featuresMatch'];
-const QUALITY_NOT_MATCH = 'notMatch';
 const ANY_VALUE = 'any';
 
 const mapFilters = document.querySelector('.map__filters');
@@ -32,31 +30,21 @@ const compareOffersWithFilters = (offerItem) => {
   });
 
 
-  const itemQuality = [];
+  if (!(selectType === ANY_VALUE || offerItem.offer.type === selectType)) {
+    return false;
+  }
 
-  if (selectType === ANY_VALUE) {
-    itemQuality.push(REQURED_QUALITY[0]);
-  } else if (offerItem.offer.type === selectType) {
-    itemQuality.push(REQURED_QUALITY[0]);
-  } else {itemQuality.push(QUALITY_NOT_MATCH);}
+  if (!(selectPrice === ANY_VALUE || (offerItem.offer.price >= HOUSING_PRICE_MIN[selectPrice]) && (offerItem.offer.price <= HOUSING_PRICE_MAX[selectPrice]))) {
+    return false;
+  }
 
-  if (selectPrice === ANY_VALUE) {
-    itemQuality.push(REQURED_QUALITY[1]);
-  } else if ((offerItem.offer.price >= HOUSING_PRICE_MIN[selectPrice]) && (offerItem.offer.price <= HOUSING_PRICE_MAX[selectPrice])) {
-    itemQuality.push(REQURED_QUALITY[1]);
-  } else {itemQuality.push(QUALITY_NOT_MATCH);}
+  if (!(selectRooms === ANY_VALUE || offerItem.offer.rooms === Number(selectRooms))) {
+    return false;
+  }
 
-  if (selectRooms === ANY_VALUE) {
-    itemQuality.push(REQURED_QUALITY[2]);
-  } else if (offerItem.offer.rooms === Number(selectRooms)) {
-    itemQuality.push(REQURED_QUALITY[2]);
-  } else {itemQuality.push(QUALITY_NOT_MATCH);}
-
-  if (selectGuests === ANY_VALUE) {
-    itemQuality.push(REQURED_QUALITY[3]);
-  } else if(offerItem.offer.guests === Number(selectGuests)) {
-    itemQuality.push(REQURED_QUALITY[3]);
-  } else {itemQuality.push(QUALITY_NOT_MATCH);}
+  if (!(selectGuests === ANY_VALUE || offerItem.offer.guests === Number(selectGuests))) {
+    return false;
+  }
 
   if (offerItem.offer.features) {
     const itemFeatures = [];
@@ -65,15 +53,12 @@ const compareOffersWithFilters = (offerItem) => {
         itemFeatures.push(item);
       }});
 
-    if (selectFeatures.join() === itemFeatures.join()) {
-      itemQuality.push(REQURED_QUALITY[4]);
-    } else {
-      itemQuality.push(QUALITY_NOT_MATCH);
+    if (!(selectFeatures.join() === itemFeatures.join())) {
+      return false;
     }
   }
 
-
-  return itemQuality.join() === REQURED_QUALITY.join();
+  return true;
 };
 
 

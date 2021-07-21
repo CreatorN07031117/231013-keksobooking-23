@@ -1,18 +1,18 @@
 import {renderOffer} from './card.js';
-import {enableForm, disablePage} from './page.js';
+import {enableForm} from './page.js';
 
 const CENTER_TOKIO = {
   lat: 35.67740,
   lng: 139.75422};
 const ZOOM = 13;
-const MAIN_PIN_SIZE = [52, 52];
-const PIN_ICON_SIZE = [40, 40];
+const MAIN_PIN_SIZES = [52, 52];
+const PIN_ICON_SIZES = [40, 40];
 const ROUNDING_ACCURACY = 5;
 
 const inputAdress = document.querySelector('#address');
 
+const map = L.map('map-canvas');
 
-disablePage();
 inputAdress.value = `${CENTER_TOKIO.lat}, ${CENTER_TOKIO.lng}`;
 
 const calculateIconAnchor = (iconSize) =>{
@@ -22,26 +22,28 @@ const calculateIconAnchor = (iconSize) =>{
 };
 
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    enableForm();
-  })
-  .setView({
-    lat: CENTER_TOKIO.lat,
-    lng: CENTER_TOKIO.lng,
-  }, ZOOM);
+const initializeMap = () => {
+  map
+    .on('load', () => {
+      enableForm();
+    })
+    .setView({
+      lat: CENTER_TOKIO.lat,
+      lng: CENTER_TOKIO.lng,
+    }, ZOOM);
 
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  })
-  .addTo(map);
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    })
+    .addTo(map);
+};
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: MAIN_PIN_SIZE,
-  iconAnchor: calculateIconAnchor(MAIN_PIN_SIZE),
+  iconSize: MAIN_PIN_SIZES,
+  iconAnchor: calculateIconAnchor(MAIN_PIN_SIZES),
 });
 
 
@@ -84,8 +86,8 @@ const markerGroup = L.layerGroup().addTo(map);
 const generatePoint = (offer) => {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
-    iconSize: PIN_ICON_SIZE,
-    iconAnchor: calculateIconAnchor(PIN_ICON_SIZE),
+    iconSize: PIN_ICON_SIZES,
+    iconAnchor: calculateIconAnchor(PIN_ICON_SIZES),
   });
 
   const lat = offer.location.lat;
@@ -111,4 +113,4 @@ const clearPoints = () => {
 };
 
 
-export {generatePoint, resetMap, clearPoints};
+export {generatePoint, resetMap, clearPoints, initializeMap};

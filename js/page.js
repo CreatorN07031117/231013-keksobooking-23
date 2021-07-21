@@ -120,12 +120,6 @@ const createErrorsMessage = () => {
   });
 
   document.addEventListener('keydown', onEscErrorMessage);
-
-  const errorButton = errorClass.querySelector('.error__button');
-  errorButton.addEventListener('click', () => {
-    closeMessage(errorClass);
-    document.removeEventListener('keydown', onEscErrorMessage);
-  });
 };
 
 
