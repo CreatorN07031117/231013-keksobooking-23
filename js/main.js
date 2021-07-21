@@ -33,10 +33,11 @@ getOffersData((offers) => {
   });
 
   const generateFilteredOffers = () => {
+    const numberOffers = offers.length;
     let i = 0;
     let j = 0;
 
-    while ((j < OFFERS_QUANTITY) && (i < 49)) {
+    while ((j < OFFERS_QUANTITY) && (i < numberOffers)) {
       if (compareOffersWithFilters(offers[i])){
         generatePoint(offers[i]);
         j++;
