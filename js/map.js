@@ -1,5 +1,4 @@
 import {renderOffer} from './card.js';
-import {enableForm} from './page.js';
 
 const CENTER_TOKIO = {
   lat: 35.67740,
@@ -22,11 +21,9 @@ const calculateIconAnchor = (iconSize) =>{
 };
 
 
-const initializeMap = () => {
+const initializeMap = (onLoad) => {
   map
-    .on('load', () => {
-      enableForm();
-    })
+    .on('load', onLoad)
     .setView({
       lat: CENTER_TOKIO.lat,
       lng: CENTER_TOKIO.lng,
@@ -60,7 +57,7 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', (evt) => {
+mainPinMarker.on('drag', (evt) => {
   const latLngMarker = evt.target.getLatLng();
   inputAdress.value = `${latLngMarker.lat.toFixed(ROUNDING_ACCURACY)}, ${latLngMarker.lng.toFixed(ROUNDING_ACCURACY)}`;
 });

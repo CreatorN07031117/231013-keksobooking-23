@@ -1,7 +1,7 @@
 import {generatePoint, clearPoints, initializeMap} from './map.js';
 import {setFilterChange, compareOffersWithFilters} from './filters.js';
 import './card.js';
-import {createSuccessMessage, createErrorsMessage, showAlert, enableMapFilter, disablePage} from './page.js';
+import {createSuccessMessage, createErrorsMessage, showAlert, enableMapFilter, disablePage, enableForm} from './page.js';
 import {setUserFormSubmit} from './form.js';
 import {getOffersData} from './fetch-data.js';
 import './filters.js';
@@ -14,47 +14,49 @@ const adFormReset = document.querySelector('.ad-form__reset');
 
 disablePage();
 
-initializeMap();
+initializeMap(() =>{
 
-getOffersData((offers) => {
-  offers
-    .slice(0, OFFERS_QUANTITY).forEach((offer) => {
-      generatePoint (offer);
-    });
+  enableForm();
 
-  enableMapFilter();
-
-  adFormReset.addEventListener('click', () => {
-    clearPoints();
+  getOffersData((offers) => {
     offers
       .slice(0, OFFERS_QUANTITY).forEach((offer) => {
         generatePoint (offer);
       });
-  });
 
-  const generateFilteredOffers = () => {
-    const numberOffers = offers.length;
-    let i = 0;
-    let j = 0;
+    enableMapFilter();
 
-    while ((j < OFFERS_QUANTITY) && (i < numberOffers)) {
-      if (compareOffersWithFilters(offers[i])){
-        generatePoint(offers[i]);
-        j++;
-        i++;
-      } else {
+    adFormReset.addEventListener('click', () => {
+      clearPoints();
+      offers
+        .slice(0, OFFERS_QUANTITY).forEach((offer) => {
+          generatePoint (offer);
+        });
+    });
+
+    const generateFilteredOffers = () => {
+      const numberOffers = offers.length;
+      let filteredOffersCount = 0;
+      let i = 0;
+
+      while ((filteredOffersCount < OFFERS_QUANTITY) && (i < numberOffers)) {
+        if (compareOffersWithFilters(offers[i])) {
+          generatePoint(offers[i]);
+          filteredOffersCount++;
+        }
         i++;
       }
-    }
-  };
+    };
 
-  setFilterChange(debounce(() => {
-    clearPoints();
-    generateFilteredOffers ();
+    setFilterChange(debounce(() => {
+      clearPoints();
+      generateFilteredOffers ();
+    },
+    RERENDER_DELAY));
   },
-  RERENDER_DELAY));
-},
-showAlert);
+  showAlert);
+
+});
 
 setUserFormSubmit(createSuccessMessage, createErrorsMessage);
 
